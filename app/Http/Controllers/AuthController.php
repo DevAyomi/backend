@@ -38,13 +38,27 @@ class AuthController extends Controller
             'errors' =>[
                 'email' => ['Sorry we cant find you with those details'],
             ]
-         ]);
+         ], 422);
         };
 
         return (new UserResource($request->user()))->additional([
             'meta' => [
                 'token' => $token,
             ],
+        ]);
+    }
+
+    public function user(Request $request){
+
+        return new UserResource($request->user());
+
+    }
+
+    public function logout(){
+        auth()->logout();
+
+        return response()->json([
+            'message' => 'User has been logged out successfully',
         ]);
     }
 }
